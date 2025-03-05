@@ -1,35 +1,30 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import Home from "./pages/home/home";
+import About from "./pages/about/About"
+import Contact from "./pages/contact/Contact"
+import Ip from "./pages/ip/Ip"
+import Legal from "./pages/legal/Legal"
+import CustomCursor from "./CustomCursor";
 
-function App() {
-  const [count, setCount] = useState(0)
-
+import {
+    BrowserRouter,
+    Routes,
+    Route
+} from "react-router-dom"
+const App = () => {
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+            <CustomCursor></CustomCursor>
+      <BrowserRouter>
+        <Routes>
+          <Route exact path = "/" element = {<Home/>}/>
+          <Route exact path = "/Legal" element = {<Legal/>}/>
+          <Route exact path = "/About" element = {<About/>}/>
+          <Route exact path = "/Contact" element = {<Contact/>}/>
+          <Route exact path = "/IpTracker" element = {<Ip/>}/>
+        </Routes>
+      </BrowserRouter>
     </>
-  )
-}
+  );
+};
 
-export default App
+export default App;
