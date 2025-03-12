@@ -9,8 +9,39 @@ function App() {
     { text: 'yes, but each message costs you gas, be careful 💰', sender: 'user' },
     { text: "yes, we'll monitor the gas later right?", sender: 'recipient' }
   ]);
+  const [userAddress, setUserAddress] = useState('');
+  const [recipientAddress, setRecipientAddress] = useState('');
   
   const messagesEndRef = useRef(null);
+
+  // Get user's address from MetaMask on component mount
+  useEffect(() => {
+    const getUserAddress = async () => {
+      try {
+        if (window.ethereum) {
+          const accounts = await window.ethereum.request({ method: 'eth_accounts' });
+          if (accounts.length > 0) {
+            setUserAddress(accounts[0]);
+          }
+        }
+      } catch (error) {
+        console.error("Error accessing MetaMask account:", error);
+      }
+    };
+
+    getUserAddress();
+
+    // Listen for account changes
+    if (window.ethereum) {
+      window.ethereum.on('accountsChanged', (accounts) => {
+        if (accounts.length > 0) {
+          setUserAddress(accounts[0]);
+        } else {
+          setUserAddress('');
+        }
+      });
+    }
+  }, []);
 
   // Scroll to bottom whenever messages change
   const scrollToBottom = () => {
@@ -23,14 +54,9 @@ function App() {
 
   const handleSendMessage = () => {
     if (message.trim() !== '') {
-      
       const newMessages = [...messages, { text: message, sender: 'user' }];
       setMessages(newMessages);
-      
-      
       setMessage('');
-      
-
     }
   };
 
@@ -41,10 +67,8 @@ function App() {
   };
 
   useEffect(() => {
-    
     localStorage.setItem('blockchainChatMessages', JSON.stringify(messages));
   }, [messages]);
-
 
   useEffect(() => {
     const savedMessages = localStorage.getItem('blockchainChatMessages');
@@ -57,13 +81,31 @@ function App() {
     <div className="app-container">
       <div className="chat-section">
         <div className="address-bar">
-          <select className="address-select">
-            <option value="">Select sender address...</option>
-          </select>
+          {/* Display sender's MetaMask address as disabled input that looks like a dropdown */}
+          <div className="address-select-container">
+            <input 
+              type="text" 
+              className="address-select" 
+              value={userAddress || "Select sender address..."}
+              disabled
+              readOnly
+            />
+            <div className="select-arrow">▼</div>
+          </div>
+          
           <div className="arrow-icon">→</div>
-          <select className="address-select">
-            <option value="">Select recipient address...</option>
-          </select>
+          
+          {/* Input field that looks like a dropdown for recipient address */}
+          <div className="address-select-container">
+            <input 
+              type="text" 
+              className="address-select" 
+              placeholder="Select recipient address..." 
+              value={recipientAddress}
+              onChange={(e) => setRecipientAddress(e.target.value)}
+            />
+            <div className="select-arrow">▼</div>
+          </div>
         </div>
         
         <div className="messages-container">
@@ -101,14 +143,14 @@ function App() {
         
         <div className="address-info">
           <div className="address-title">Sender address:</div>
-          <div className="address-value"></div>
+          <div className="address-value">{userAddress}</div>
           <div className="info-item">Number of transactions: 3</div>
           <div className="info-item">Wallet balance: 99.9923538 ETH</div>
         </div>
         
         <div className="address-info recipient">
           <div className="address-title">Recipient address:</div>
-          <div className="address-value"></div>
+          <div className="address-value">{recipientAddress}</div>
           <div className="info-item">Number of transactions: 416</div>
           <div className="info-item">Wallet balance: 77.49212746 ETH</div>
         </div>
