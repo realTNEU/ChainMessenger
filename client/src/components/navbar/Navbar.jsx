@@ -17,17 +17,20 @@ const Navbar = () => {
       <div className="navbar-links">
         <NavLink to="/" exact activeClassName="active">Home</NavLink>
         <NavLink to="/about" activeClassName="active">About</NavLink>
-        <NavLink to="/IpTracker" activeClassName="active">Chat</NavLink>
         <NavLink to="/legal" activeClassName="active">Legal</NavLink>
         <NavLink to="/contact" activeClassName="active">Contact</NavLink>
       </div>
-      <div className="navbar-actions">
-        <button className="btn-download">Login</button>
-      </div>
+
     </nav>
   );
 };
-
+// I have got my eyes on you , you are everything that I see , I want your heart , love and emotion endlessly.
+// I can't get over you , you left your mark on me , I want your heart , love and emotion endlessly.
+// Cause you are a good girl and you know it 
+// You act so different around me
+// Cause you are a good girl and you know it 
+// I know exactly who you could be
+// Just hold on we are going home 
 export default Navbar;
 
 function showSidebar() {
