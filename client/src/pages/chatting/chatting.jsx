@@ -1,15 +1,15 @@
 import React from 'react'
 import Navbar from '../../components/navbar/Navbar'
-import IptrackerContent from '../../components/ip-content/ipContent'
+import ChattingContent from '../../components/ChattingContent/ChattingContent';
 import Footer from "../../components/footer/footer";
-const Ip = () => {
+const Chatting = () => {
   return (
     <>
     <Navbar/>
-    <IptrackerContent/>
+    <ChattingContent/>
     <Footer/>
     </>
   )
 }
 
-export default Ip
+export default Chatting
